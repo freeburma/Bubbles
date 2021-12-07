@@ -42,14 +42,33 @@ console.log(`Screen: ${max_xPos} : ${max_yPos} px`);
 
 let isMove = true; 
 
-function init()
+function generateColor()
 {
-    window.requestAnimationFrame(InterValFunction)
+    let hexSet = "012345678ABCDEF"; 
+    let finalHexString = "#"; 
+
+    for (let i = 0; i < 6; i++)
+    {
+        finalHexString += hexSet[Math.ceil(Math.random() * 15)]; 
+    }// end for 
+
+    return finalHexString; 
+    
+}// end generateColor()
+
+function GetRGB_Color()
+{
+    return Math.random() * 255; 
 }
 
 function InterValFunction()
 {
     let boxElement = document.getElementById('bubble_1'); 
+    let boxElementChild = boxElement.childNodes; 
+    boxElementChild[1].style.border = `1px solid ${generateColor()}`; 
+    boxElementChild[1].style.boxShadow = `inset 10px 10px 10px rgba(${GetRGB_Color()}, ${GetRGB_Color()}, ${GetRGB_Color()}, 0.6), 
+                                  inset 20px 20px 20px rgba(${GetRGB_Color()}, ${GetRGB_Color()}, ${GetRGB_Color()}, 0.8)
+                                  `; 
 
 
     if (isMove)
@@ -85,7 +104,7 @@ function InterValFunction()
 
 
     
-    xPos += 1; 
+    xPos += 0.05; 
     // yPos += 20; 
 
     boxElement.style.left = xPos + 'px'; 
@@ -98,7 +117,8 @@ function InterValFunction()
     
 }
 
-init(); 
+window.requestAnimationFrame(InterValFunction)
+
 
 // setInterval(() => InterValFunction(), 1000); 
 

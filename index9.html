@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Book => Recursive Drawing Tree</title>
+
+    <!-- Ref: https://books.google.co.nz/books?id=yt1SDVNqsIoC&pg=PA144&lpg=PA144&dq=how+to+move+circle+with+gradient+on+canvas+with+x+and+y+position+with+js&source=bl&ots=b1EKdij9_X&sig=ACfU3U14Sp-KlXDNTfB3NfBi9G45vNHzrw&hl=en&sa=X&ved=2ahUKEwj1tur9j9P0AhV2SGwGHSQSDkUQ6AF6BAgVEAM#v=onepage&q&f=true -->
+</head>
+
+<body>
+    <style>
+        canvas {
+            background-color: aqua;
+        }
+    </style>
+
+    <canvas id="cw" width="600" height="600"></canvas>
+    <script>
+
+
+        const canvas = document.getElementById('cw');
+        const ctx = canvas.getContext('2d');
+
+        // let drawTree = function(ctx, startX, startY, length, angle, depth, branchWidth)
+        function drawTree(ctx, startX, startY, length, angle, depth, branchWidth)
+        {
+            let rand = Math.random, 
+                       newLength, newAngle, newDepth, maxBranch = 3, 
+                       endX, endY, maxAngle = 2 * Math.PI / 4, 
+                       subBranches, lenShrink; 
+
+
+            //// Draw a branch, leaning either to left or right (depending on angle)
+            //// First branch (the trunk) is drawn straight up (angle = 1.571 radians)
+
+            ctx.beginPath(); 
+            ctx.moveTo(startX, startY); 
+            endX = startX + length *( Math.cos(angle)); 
+            endY = startY + length *( Math.sin(angle)); 
+
+            ctx.lineCap = 'round'; 
+            ctx.lineWidth = branchWidth; 
+            ctx.lineTo(endX, endY); 
+
+            //// if we are near the end of branches, make them green to look like leaves. 
+            if (depth <= 2)
+            {
+                ctx.strokeStyle = `rgb(0, ${(((rand() * 64) + 128) >> 0)}, 0)`; 
+            }
+            else 
+            {
+                ctx.strokeStyle = `rgb(0, ${(((rand() * 64) + 64) >> 0)}, 50, 25)`; 
+            }
+
+
+            ctx.stroke(); 
+
+            //// Reduce the branch recursion level 
+            newDepth = depth - 1; 
+
+            //// IF  the recursion level has reached zero, then the branch grows no more 
+            if ( ! newDepth )
+            {
+                return; 
+            }
+
+            //// Make current branch split into a random number of branches (max 3). 
+            //// Add in some random lengths, widths and angles for a more natural look 
+            subBranches = (rand() * (maxBranch - 1)) + 1; 
+
+            //// Reduce the width of the new branches. 
+            branchWidth *= 0.7; 
+
+            //// Recursively, call drawTree for the new branches with new values 
+            for (let i = 0; i < subBranches; i++)
+            {
+                newAngle = (angle + (rand() * maxAngle)) - (maxAngle * 0.5); 
+                newLength = length * (0.7 + rand() * 0.3); 
+
+
+                drawTree(ctx, endX, endY, newLength, newAngle, newDepth, branchWidth); 
+            }// end for 
+        }; 
+
+
+        drawTree(ctx, 320, 470, 60, -Math.PI / 2, 12, 12); 
+
+    </script>
+</body>
+
+</html>

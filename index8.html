@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radial Gradient Example</title>
+
+    <!-- Ref: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors -->
+</head>
+
+<body>
+    <style>
+        canvas {
+            background-color: aqua;
+        }
+    </style>
+
+    <canvas id="cw" width="600" height="600"></canvas>
+    <script>
+
+
+        const canvas = document.getElementById('cw');
+        const ctx = canvas.getContext('2d');
+
+        // array of path coords
+        const pathCoords = [
+            [200, 100],
+            [300, 150],
+            [200, 190],
+            [400, 100],
+            [50, 10],
+            [150, 10],
+            [0, 50],
+            [500, 90],
+            [20, 190],
+            [10, 180],
+        ];
+
+        // current point
+        let currentTarget = pathCoords.shift();
+
+        //circle object
+        const circle = 
+        {
+            x: 90,
+            y: 90,
+            radius: 60,
+            dx: 2,
+            dy: 2,
+            color: 'blue'
+        }
+
+        //function to draw above circle on canvas 
+        function drawCircle() 
+        {
+
+            var radgrad = ctx.createRadialGradient(circle.x, circle.y, 10, circle.x, circle.y, 80);
+
+            radgrad.addColorStop(0, 'rgba(255, 255, 255, 1');
+
+            radgrad.addColorStop(0.7, '#A7D30C');
+            radgrad.addColorStop(1, '#019f62');
+            radgrad.addColorStop(0, 'rgba(1, 159, 98, 0.45');
+            ctx.beginPath();
+            ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+            
+            // ctx.fillStyle = circle.color;
+            ctx.fillStyle = radgrad;
+            
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        //Moving to a target coordinate (targetX,targetY)
+        function goTo(targetX, targetY) 
+        {
+            if (Math.abs(circle.x - targetX) < circle.dx && Math.abs(circle.y - targetY) < circle.dy) 
+            {
+                // dont stop...
+                //circle.dx = 0;
+                //circle.dy = 0;
+                circle.x = targetX;
+                circle.y = targetY;
+
+                // go to next point
+                if (pathCoords.length) 
+                {
+                    currentTarget = pathCoords.shift();
+                } 
+                else 
+                {
+                    console.log('Path end');
+                }
+            } 
+            else 
+            {
+                const opp = targetY - circle.y;
+                const adj = targetX - circle.x;
+
+                const angle = Math.atan2(opp, adj)
+                circle.x += Math.cos(angle) * circle.dx
+                circle.y += Math.sin(angle) * circle.dy
+            }
+        }
+
+        function update() 
+        {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawCircle();
+            goTo(...currentTarget);
+
+            requestAnimationFrame(update);
+        }
+
+        update();
+
+
+
+
+    </script>
+</body>
+
+</html>

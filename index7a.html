@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radial Gradient Example</title>
+
+    <!-- 
+        Ref: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors 
+        MovingCanvas: https://pretagteam.com/question/html-5-canvas-and-moving-objects
+    -->
+
+</head>
+
+<body>
+    <style>
+        canvas {
+            background-color: black;
+
+            width: 100%;
+            height: 100vh;
+
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- Note *** It has be square -->
+    <!-- <canvas id="cw" width="800" height="800"></canvas> -->
+    <canvas id="cw"></canvas>
+
+    <script>
+        const canvas = document.getElementById('cw');
+        const ctx = canvas.getContext('2d');
+
+        class DrawGradientCircle {
+            
+
+            constructor(ctx, canvasWidth, canvasHeight)
+            {
+                    this.c=  {
+                    x: 90,
+                    y: 90,
+                    r: 60
+                };
+
+                this.g = {
+                    x1: 45,
+                    y1: 70,
+                    r1: 10,
+
+                    x2: 90,
+                    y2: 90,
+                    r2: 80
+                }
+
+                this.el =  {
+                    x: 50,
+                    y: 60,
+                    radiusX: 5,
+                    radiusY: 12
+                };
+
+                this.ctx = ctx; 
+                this.canvasWidth = canvasWidth; 
+                this.canvasHeight = canvasHeight; 
+            }
+
+
+
+            move(speed) 
+            {
+                //// Resetting Parent to original with  its associates
+                if (this.c.x >= this.canvasWidth || this.c.y >= this.canvasHeight) 
+                {
+                    this.resetCoordinate();
+                };
+
+
+
+
+                this.c.x += speed;
+                this.c.y += speed;
+
+                //// Gradient 
+                this.g.x1 += speed;
+                this.g.y1 += speed;
+                this.g.x2 += speed;
+                this.g.y2 += speed;
+
+                //// Ellipse 
+                this.el.x += speed;
+                this.el.y += speed;
+
+
+            } // move()
+
+            resetCoordinate() 
+            {
+                // Ellipse 
+                this.el.x = 50;
+
+                // Gradient 
+                this.g.x1 = 45;
+                this.g.y1 = 75;
+
+                // Circle 
+                this.c.x = 90;
+
+
+                // Ellipse 
+                this.el.y = 60;
+
+                // Gradient 
+                this.g.x2 = 90;
+                this.g.y2 = 90;
+                
+
+                // Circle 
+                this.c.y = 90;
+            } // end resetCoordinate()
+
+
+
+            DrawCircleOnCanvas() 
+            {
+
+                //// Create gradients 
+                var radgrad = this.ctx.createRadialGradient(this.g.x1, this.g.y1, this.g.r1, this.g.x2, this.g.y2, this.g.r2);
+
+                radgrad.addColorStop(0.7, '#A7D30C');
+                radgrad.addColorStop(1, '#019f62');
+
+
+                this.ctx.beginPath()
+                this.ctx.fillStyle = radgrad;
+                this.ctx.arc(this.c.x, this.c.y, this.c.r, 0, 2 * Math.PI);
+                this.ctx.fill();
+                this.ctx.closePath();
+
+
+                //// Adding ellipse 
+                //// Ref: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/ellipse
+                //// void ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle [, counterclockwise]);
+                this.ctx.fillStyle = 'white';
+                this.ctx.beginPath();
+                this.ctx.ellipse(this.el.x, this.el.y, this.el.radiusX, this.el.radiusY, Math.PI * 0.20, 0, 2 * Math.PI);
+                this.ctx.fill();
+
+            } // end CircleWithGradient()
+
+
+        } // end class DrawGradientCircle 
+
+
+
+
+
+
+
+
+
+
+        function resizeCanvasToDisplaySize() 
+        {
+            // look up the size the canvas is being displayed
+            const width = canvas.clientWidth;
+            const height = canvas.clientHeight;
+
+            // If it's resolution does not match change it
+            if (canvas.width !== width || canvas.height !== height) {
+                canvas.width = width;
+                canvas.height = height;
+                return true;
+            }
+
+            return false;
+        }
+
+
+        let circleObject_1 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight);
+        let circleObject_2 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight);
+        let circleObject_3 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight);
+
+        function CircleWithGradient() {
+            resizeCanvasToDisplaySize();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
+
+            const speed = 2;
+            circleObject_1.DrawCircleOnCanvas();
+            circleObject_1.move(speed); 
+
+            circleObject_2.DrawCircleOnCanvas();
+            circleObject_2.move(4); 
+
+
+            circleObject_3.DrawCircleOnCanvas();
+            circleObject_3.move(6); 
+
+
+         
+
+
+
+
+            window.requestAnimationFrame(CircleWithGradient);
+
+
+        } // end CircleWithGradient()
+
+
+        // CircleWithGradientStatic();
+        CircleWithGradient();
+    </script>
+</body>
+
+</html>

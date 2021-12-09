@@ -13,6 +13,298 @@
         MovingCanvas: https://pretagteam.com/question/html-5-canvas-and-moving-objects
     -->
 
+    <script>
+        class DrawGradientCircle {
+            
+
+            constructor(ctx, canvasWidth, canvasHeight, direction, speed)
+            {
+                    this.c=  {
+                    x: 90,
+                    y: 90,
+                    r: 75
+                };
+        
+                this.g = {
+                    x1: 45,
+                    y1: 70,
+                    r1: 10,
+        
+                    x2: 90,
+                    y2: 90,
+                    r2: 80
+                }
+        
+                this.el =  {
+                    x: 50,
+                    y: 60,
+                    radiusX: 5,
+                    radiusY: 12
+                };
+
+                this.direction = direction; 
+                this.speed = speed;
+        
+                this.ctx = ctx; 
+                
+                this.canvasWidth = canvasWidth; 
+                this.canvasHeight = canvasHeight; 
+        
+                this.cy = 0; 
+            }
+        
+            /* Directions */
+            LeftToRight()
+            {
+                this.c.x -= this.speed;
+                this.c.y = this.c.y;
+        
+                //// Gradient 
+                this.g.x1 -= this.speed;
+                this.g.y1 = this.g.y1;
+                this.g.x2 -= this.speed;
+                this.g.y2 = this.g.y2;
+        
+                //// Ellipse 
+                this.el.x -= this.speed;
+                this.el.y = this.el.y;
+            }// end LeftToRight()
+        
+            TopToBottom()
+            {
+                this.c.x = this.c.x;
+                this.c.y -= this.speed;
+        
+                //// Gradient 
+                this.g.x1 = this.g.x1;
+                this.g.y1 -= this.speed;
+                this.g.x2 = this.g.x2;
+                this.g.y2 -= this.speed;
+        
+                //// Ellipse 
+                this.el.x =  this.el.x;
+                this.el.y -= this.speed;
+            }// end TopToBottom()
+        
+            RightToLeft()
+            {
+                this.c.x += this.speed;
+                this.c.y = this.c.y;
+        
+                //// Gradient 
+                this.g.x1 += this.speed;
+                this.g.y1 = this.g.y1;
+                this.g.x2 += this.speed;
+                this.g.y2 = this.g.y2;
+        
+                //// Ellipse 
+                this.el.x += this.speed;
+                this.el.y = this.el.y;
+        
+            }// end RightToLeft()
+        
+            BottomToTop()
+            {
+                this.c.x = this.c.x;
+                this.c.y  += this.speed;
+        
+                //// Gradient 
+                this.g.x1 = this.g.x1;
+                this.g.y1 += this.speed;
+                this.g.x2 = this.g.x2;
+                this.g.y2 += this.speed;
+        
+                //// Ellipse 
+                this.el.x =  this.el.x;
+                this.el.y += this.speed;
+            }// end BottomToTop()
+        
+            TopCornerToBottomCorner()
+            {
+                this.c.x += this.speed;
+                this.c.y += this.speed;
+        
+                //// Gradient 
+                this.g.x1 += this.speed;
+                this.g.y1 += this.speed;
+                this.g.x2 += this.speed;
+                this.g.y2 += this.speed;
+        
+                //// Ellipse 
+                this.el.x += this.speed;
+                this.el.y += this.speed;
+            }// end TopCornerToBottomCorner()
+        
+        
+            /*
+                TODO: 
+                1. Bubbles have to drop from 4-corners 
+                2. Bubble direction change randomly 
+                3. Collision Detection then move to its coordinate 
+                4. Bubble has 
+        
+                direction: [
+                    0: left
+                    1: Top
+                    2: Right
+                    3: button
+                    4: Drop from top corner
+                ] 
+            */
+            move() 
+            {
+        
+                
+                /*================================================================================================ 
+                    Checking the bubbles coordinates and making sure they are still on our canvas. 
+                ================================================================================================*/
+        
+                if (this.c.x >= this.canvasWidth) 
+                {
+                    // this.resetCoordinate();
+        
+                    this.direction = 0; 
+                    // console.log(`D: ${this.direction} =>c: [  x:${this.c.x}, y:${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
+                   
+                };
+        
+                if (this.c.x <= 0) 
+                {
+                    this.direction = 2; 
+                    // console.log(`[D: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
+        
+                }
+        
+                if (this.c.y >= this.canvasHeight)
+                {
+                    this.direction = 1; 
+                    // console.log(`[D: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
+        
+                }
+        
+                if (this.c.y <= 0)
+                {
+                    this.direction = 3; 
+                    // console.log(`[D: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
+        
+                }
+        
+                
+        
+        
+               
+                /*================================================================================================ 
+                    Controlling Direction 
+                ================================================================================================*/
+                if (this.direction == 0)
+                {
+                    this.LeftToRight(); 
+                }
+                else if (this.direction == 1)
+                {
+                   this.TopToBottom(); 
+                }
+                else if (this.direction === 2)
+                {
+                    this.RightToLeft(); 
+                }
+                else if ( this.direction == 3 )
+                {
+                   this.BottomToTop(); 
+                }
+                else
+                {
+                    this.TopCornerToBottomCorner(); 
+                }
+        
+                
+        
+        
+            } // move()
+        
+            // resetCoordinate() 
+            // {
+            //     // Ellipse 
+            //     this.el.x = 50;
+        
+            //     // Gradient 
+            //     this.g.x1 = 45;
+            //     this.g.y1 = 75;
+        
+            //     // Circle 
+            //     this.c.x = 90;
+        
+        
+            //     // Ellipse 
+            //     this.el.y = 60;
+        
+            //     // Gradient 
+            //     this.g.x2 = 90;
+            //     this.g.y2 = 90;
+                
+        
+            //     // Circle 
+            //     this.c.y = 90;
+            // } // end resetCoordinate()
+        
+            resetCoordinate() 
+            {
+                // Ellipse 
+                this.el.x = 50;
+        
+                // Gradient 
+                this.g.x1 = 45;
+                this.g.y1 = 750;
+        
+                // Circle 
+                this.c.x = 90;
+        
+        
+                // Ellipse 
+                this.el.y = 800;
+        
+                // Gradient 
+                this.g.x2 = 90;
+                this.g.y2 = 80;
+                
+        
+                // Circle 
+                this.c.y = 800;
+            } // end resetCoordinate()
+        
+        
+        
+            DrawCircleOnCanvas() 
+            {
+        
+                //// Create gradients 
+                var radgrad = this.ctx.createRadialGradient(this.g.x1, this.g.y1, this.g.r1, this.g.x2, this.g.y2, this.g.r2);
+        
+                radgrad.addColorStop(0.7, '#A7D30C');
+                radgrad.addColorStop(0.25, '#019f62');
+        
+        
+                this.ctx.beginPath()
+                this.ctx.fillStyle = radgrad;
+                this.ctx.arc(this.c.x, this.c.y, this.c.r, 0, 2 * Math.PI);
+                this.ctx.fill();
+                this.ctx.closePath();
+        
+        
+                //// Adding ellipse 
+                //// Ref: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/ellipse
+                //// void ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle [, counterclockwise]);
+                this.ctx.fillStyle = 'white';
+                this.ctx.beginPath();
+                this.ctx.ellipse(this.el.x, this.el.y, this.el.radiusX, this.el.radiusY, Math.PI * 0.20, 0, 2 * Math.PI);
+                this.ctx.fill();
+        
+            } // end CircleWithGradient()
+        
+        
+        } // end class DrawGradientCircle 
+    </script>
+
 </head>
 
 <body>
@@ -54,47 +346,124 @@
         }
 
 
-        let circleObject_1 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=0);
-        let circleObject_2 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=1);
-        let circleObject_3 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=2);
-        let circleObject_4 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=3);
-        let circleObject_5 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=0);
-        let circleObject_6 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=3);
+        let circleObject_1 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=0, speed=4);
+        let circleObject_2 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=2, speed=4);
+        let circleObject_3 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=1, speed=4);
+        let circleObject_4 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=3, speed=4);
+        // let circleObject_5 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=0);
+        // let circleObject_6 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=3);
 
-        function CircleWithGradient() {
+        let circleArray = []; 
+
+        function detectCollision(circleObject_1, circleObject_2)
+        {
+            let collision = { topAndBottom: false, leftAndRight: false }; 
+            /*================================================================================================ 
+                Collision Detecting
+                Ref: https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+            ================================================================================================*/
+
+            let dx = (circleObject_1.c.x + circleObject_1.c.r) - (circleObject_2.c.x + circleObject_2.c.r); 
+            let dy = (circleObject_2.c.y + circleObject_2.c.r) - (circleObject_2.c.y + circleObject_2.c.r); 
+            // console.log(`Center Xs: ${circle_1_CenterX} == ${circle_2_CenterX}`);
+
+            let distance = Math.sqrt(dx * dx + dy * dy); // circumference = sqrt a^2 + b^2
+
+            if (distance < (circleObject_1.c.r + circleObject_2.c.r))
+            {
+               
+                console.log(`================ Collision Detected ===============`);
+                console.log(`[c1: [${circleObject_1.c.x}, ${circleObject_1.c.y}], g: [${circleObject_1.g.x1}, ${circleObject_1.g.y1}, ${circleObject_1.g.x2}, ${circleObject_1.g.y2}], el: [$${circleObject_1.el.x}, ${circleObject_1.el.y}]]`);
+                console.log(`[c2: [${circleObject_2.c.x}, ${circleObject_2.c.y}], g: [${circleObject_2.g.x1}, ${circleObject_2.g.y1}, ${circleObject_2.g.x2}, ${circleObject_2.g.y2}], el: [$${circleObject_2.el.x}, ${circleObject_2.el.y}]]`);
+                console.log(`=====================================================`);
+                
+                if (circleObject_1.c.x <= circleObject_2.c.x)
+                {
+                    
+                    circleObject_1.direction = 2; 
+                    circleObject_2.direction = 0; 
+
+                    collision.leftAndRight = true; 
+                }// end if 
+
+                if (circleObject_1.c.y <= circleObject_2.c.y)
+                {
+                    
+
+                    // console.log(`================ Collision Detected ===============`);
+                    // console.log(`[c1: [${circleObject_1.c.x}, ${circleObject_1.c.y}], g: [${circleObject_1.g.x1}, ${circleObject_1.g.y1}, ${circleObject_1.g.x2}, ${circleObject_1.g.y2}], el: [$${circleObject_1.el.x}, ${circleObject_1.el.y}]]`);
+                    // console.log(`[c2: [${circleObject_2.c.x}, ${circleObject_2.c.y}], g: [${circleObject_2.g.x1}, ${circleObject_2.g.y1}, ${circleObject_2.g.x2}, ${circleObject_2.g.y2}], el: [$${circleObject_2.el.x}, ${circleObject_2.el.y}]]`);
+                    // console.log(`=====================================================`);
+
+                    circleObject_1.direction = 3; 
+                    circleObject_2.direction = 1; 
+
+                    collision.topAndBottom = true; 
+
+                }// end if   
+                
+            }// end if 
+
+            return collision; 
+
+
+        }// end detectCollision()
+
+        function init()
+        {
+
+            let numberOfBubbles = 4; 
+
+            for (let i = 0; i < numberOfBubbles; i++)
+            {
+                let circleObject = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=i, speed=4);
+                circleArray.push(circleObject); 
+
+            }// end for 
+
+            for (let i = 0; i < numberOfBubbles; i++)
+            {
+                circleArray[i].DrawCircleOnCanvas(); 
+                
+                circleArray[i].move(); 
+                
+            }// end for 
+
+
+        }// end init()
+
+        function CircleWithGradient() 
+        {
             resizeCanvasToDisplaySize();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            init(); 
+
+           
+            // circleObject_1.DrawCircleOnCanvas();
+            // circleObject_1.move(); 
+
+            // // console.log(`[c: [${circleObject_1.c.x}, ${circleObject_1.c.y}], g: [${circleObject_1.g.x1}, ${circleObject_1.g.y1}, ${circleObject_1.g.x2}, ${circleObject_1.g.y2}], el: [$${circleObject_1.el.x}, ${circleObject_1.el.y}]]`);
+
+            
+            // circleObject_2.DrawCircleOnCanvas();
+            // circleObject_2.move(); 
+
+           
+
+            
 
 
-            let speed = 2;
-            circleObject_1.DrawCircleOnCanvas();
-            circleObject_1.move(speed); 
+            // speed = 3; 
+            // circleObject_3.DrawCircleOnCanvas();
+            // circleObject_3.move(); 
 
-            // console.log(`[c: [${circleObject_1.c.x}, ${circleObject_1.c.y}], g: [${circleObject_1.g.x1}, ${circleObject_1.g.y1}, ${circleObject_1.g.x2}, ${circleObject_1.g.y2}], el: [$${circleObject_1.el.x}, ${circleObject_1.el.y}]]`);
-
-            speed = 2.5;
-            circleObject_2.DrawCircleOnCanvas();
-            circleObject_2.move(speed); 
+            // speed = 3.5;
+            // circleObject_4.DrawCircleOnCanvas();
+            // circleObject_4.move(); 
 
 
-            speed = 3; 
-            circleObject_3.DrawCircleOnCanvas();
-            circleObject_3.move(speed); 
-
-            speed = 3.5;
-            circleObject_4.DrawCircleOnCanvas();
-            circleObject_4.move(speed); 
-
-            speed = 2;
-            circleObject_5.DrawCircleOnCanvas();
-            circleObject_5.move(speed); 
-
-            speed = 1; 
-            circleObject_6.DrawCircleOnCanvas();
-            circleObject_6.move(speed); 
-
-
+           
          
 
 
@@ -107,7 +476,10 @@
 
 
         // CircleWithGradientStatic();
-        CircleWithGradient();
+        // init(); 
+        // window.requestAnimationFrame(CircleWithGradient);
+        CircleWithGradient(); 
+
     </script>
 </body>
 

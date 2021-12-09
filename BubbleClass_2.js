@@ -48,27 +48,15 @@ class DrawGradientCircle {
     move(speed) 
     {
 
-        if (this.c.y <= 0)
-        {
-            this.direction = 3; 
-            console.log(`[D0: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
-
-        }
-
-        if (this.c.y >= this.canvasHeight)
-        {
-            this.direction = 1; 
-            console.log(`[D1: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
-
-
-        }
+        
+       
 
         if (this.c.x >= this.canvasWidth) 
         {
             // this.resetCoordinate();
 
             this.direction = 0; 
-            console.log(`D3: ${this.direction} =>c: [  x:${this.c.x}, y:${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
+            console.log(`D: ${this.direction} =>c: [  x:${this.c.x}, y:${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
 
            
         };
@@ -76,7 +64,22 @@ class DrawGradientCircle {
         if (this.c.x <= 0) 
         {
             this.direction = 2; 
-            console.log(`[D2: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
+            console.log(`[D: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
+
+        }
+
+        if (this.c.y >= this.canvasHeight)
+        {
+            this.direction = 1; 
+            console.log(`[D: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
+
+
+        }
+
+        if (this.c.y <= 0)
+        {
+            this.direction = 3; 
+            console.log(`[D: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
 
         }
 

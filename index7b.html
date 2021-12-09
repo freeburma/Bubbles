@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radial Gradient Example</title>
-    <script src="./BubbleClass.js"></script>
+    <script src="./BubbleClass_2.js"></script>
 
     <!-- 
         Ref: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors 
@@ -54,12 +54,12 @@
         }
 
 
-        let circleObject_1 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight);
-        let circleObject_2 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight);
-        let circleObject_3 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight);
-        let circleObject_4 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight);
-        let circleObject_5 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight);
-        let circleObject_6 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight);
+        let circleObject_1 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=0);
+        let circleObject_2 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=1);
+        let circleObject_3 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=2);
+        let circleObject_4 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=3);
+        let circleObject_5 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=0);
+        let circleObject_6 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=1);
 
         function CircleWithGradient() {
             resizeCanvasToDisplaySize();
@@ -69,30 +69,30 @@
 
             let speed = 2;
             circleObject_1.DrawCircleOnCanvas();
-            circleObject_1.move(speed, 3); 
+            circleObject_1.move(speed); 
 
-            console.log(`[${circleObject_1.c.x}, ${circleObject_1.c.x}]`);
+            // console.log(`[c: [${circleObject_1.c.x}, ${circleObject_1.c.y}], g: [${circleObject_1.g.x1}, ${circleObject_1.g.y1}, ${circleObject_1.g.x2}, ${circleObject_1.g.y2}], el: [$${circleObject_1.el.x}, ${circleObject_1.el.y}]]`);
 
             speed = 2.5;
             circleObject_2.DrawCircleOnCanvas();
-            circleObject_2.move(speed, 0); 
+            circleObject_2.move(speed); 
 
 
             speed = 3; 
             circleObject_3.DrawCircleOnCanvas();
-            circleObject_3.move(speed, 2); 
+            circleObject_3.move(speed); 
 
             speed = 3.5;
             circleObject_4.DrawCircleOnCanvas();
-            circleObject_4.move(speed, 1); 
+            circleObject_4.move(speed); 
 
             speed = 2;
             circleObject_5.DrawCircleOnCanvas();
-            circleObject_5.move(speed, 2); 
+            circleObject_5.move(speed); 
 
             speed = 1; 
             circleObject_6.DrawCircleOnCanvas();
-            circleObject_6.move(speed, 4); 
+            circleObject_6.move(speed); 
 
 
          

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radial Gradient Example</title>
+    <script src="./BubbleClass_3.js"></script>
+
+    <!-- 
+        Ref: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors 
+        MovingCanvas: https://pretagteam.com/question/html-5-canvas-and-moving-objects
+    -->
+
+    <script>
+        
+    </script>
+
+</head>
+
+<body>
+    <style>
+        canvas {
+            background-color: black;
+
+            width: 100%;
+            height: 96vh;
+
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- Note *** It has be square -->
+    <!-- <canvas id="cw" width="800" height="800"></canvas> -->
+    <canvas id="cw"></canvas>
+
+    <script>
+        const canvas = document.getElementById('cw');
+        const ctx = canvas.getContext('2d');
+
+
+
+        function resizeCanvasToDisplaySize() 
+        {
+            // look up the size the canvas is being displayed
+            const width = canvas.clientWidth;
+            const height = canvas.clientHeight;
+
+            // If it's resolution does not match change it
+            if (canvas.width !== width || canvas.height !== height) {
+                canvas.width = width;
+                canvas.height = height;
+                return true;
+            }
+
+            return false;
+        }
+
+
+        let circleArray = []; 
+        let numberOfBubbles = 2; 
+
+        function randomColor()
+        {
+            let hexValues = "0123456789ABCDEF"; 
+            let colorString = '#'; 
+
+            for (let i = 0; i < 6; i++)
+            {
+                colorString += hexValues[ Math.ceil(Math.random() * 15)]; 
+            }
+
+            return colorString; 
+        }// end randomColor()
+        
+
+        
+        let circleObject = new DrawGradientCircle(ctx, id=1, color_1=randomColor(), color_2=randomColor(), canvas.clientWidth, canvas.clientHeight, direction=1, speed=10);
+
+        
+
+        function CircleWithGradient(direction=0) 
+        {
+            resizeCanvasToDisplaySize();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
+
+            circleObject.DrawCircleOnCanvas();
+            circleObject.move(direction); 
+
+
+        } // end CircleWithGradient()
+
+        document.onkeydown = function(e)
+        {
+            e = e || window.event; 
+
+            if (e.keyCode == '38')
+            {
+                console.log(`Up Arrow Key`);
+
+
+                CircleWithGradient(direction = 1); 
+            }
+
+            if (e.keyCode == '40')
+            {
+                console.log(`Down Arrow Key`);
+
+                CircleWithGradient(direction = 3); 
+            }
+
+            if (e.keyCode == '37')
+            {
+                console.log(`Left Arrow Key`);
+                CircleWithGradient(direction = 0); 
+            }
+
+            if (e.keyCode == '39')
+            {
+                console.log(`Right Arrow Key`);
+                CircleWithGradient(direction = 2); 
+
+            }
+
+            if (e.keyCode == '65')
+            {
+                console.log('A Key');
+                CircleWithGradient(direction = 4); 
+
+            }
+
+            if (e.keyCode == '87')
+            {
+                console.log('W Key');
+                CircleWithGradient(direction = 5); 
+
+            }
+
+            if (e.keyCode == '68')
+            {
+                console.log('D Key');
+                CircleWithGradient(direction = 6); 
+
+            }
+
+            if (e.keyCode == '88')
+            {
+                console.log('X Key');
+                CircleWithGradient(direction = 7); 
+
+            }
+        }; 
+
+
+      
+        CircleWithGradient(); 
+
+    </script>
+</body>
+
+</html>

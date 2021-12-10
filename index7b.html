@@ -17,9 +17,9 @@
         class DrawGradientCircle {
             
 
-            constructor(ctx, canvasWidth, canvasHeight, direction, speed)
+            constructor(ctx, id, color_1='#A7D30C', color_2='#019f62', canvasWidth, canvasHeight, direction, speed)
             {
-                    this.c=  {
+                this.c=  {
                     x: 90,
                     y: 90,
                     r: 75
@@ -42,8 +42,14 @@
                     radiusY: 12
                 };
 
-                this.direction = direction; 
+                this.id = id; 
+                this.color_1 = color_1; 
+                this.color_2 = color_2; 
+
+                this.directionCount = 1; 
+                this.direction = direction; // Direction
                 this.speed = speed;
+
         
                 this.ctx = ctx; 
                 
@@ -51,7 +57,8 @@
                 this.canvasHeight = canvasHeight; 
         
                 this.cy = 0; 
-            }
+
+            }// end constructor()
         
             /* Directions */
             LeftToRight()
@@ -69,6 +76,24 @@
                 this.el.x -= this.speed;
                 this.el.y = this.el.y;
             }// end LeftToRight()
+
+            LeftToRightFrom_yPos()
+            {
+                const randomYPos = Math.ceil(Math.random() * this.canvasWidth + 1); 
+
+                this.c.x -= this.speed;
+                this.c.y = this.c.y / randomYPos;
+        
+                //// Gradient 
+                this.g.x1 -= this.speed;
+                this.g.y1 = this.g.y1 / randomYPos;
+                this.g.x2 -= this.speed;
+                this.g.y2 = this.g.y2 / randomYPos;
+        
+                //// Ellipse 
+                this.el.x -= this.speed;
+                this.el.y = this.el.y / randomYPos;
+            }// end LeftToRight()
         
             TopToBottom()
             {
@@ -83,6 +108,24 @@
         
                 //// Ellipse 
                 this.el.x =  this.el.x;
+                this.el.y -= this.speed;
+            }// end TopToBottom()
+
+            TopToBottom_xPos()
+            {
+                const randomXPos = Math.ceil(Math.random() * this.canvasWidth + 1); 
+
+                this.c.x = this.c.x / randomXPos;
+                this.c.y -= this.speed;
+        
+                //// Gradient 
+                this.g.x1 = this.g.x1 / randomXPos;
+                this.g.y1 -= this.speed;
+                this.g.x2 = this.g.x2 / randomXPos;
+                this.g.y2 -= this.speed;
+        
+                //// Ellipse 
+                this.el.x =  this.el.x / randomXPos;
                 this.el.y -= this.speed;
             }// end TopToBottom()
         
@@ -102,6 +145,25 @@
                 this.el.y = this.el.y;
         
             }// end RightToLeft()
+
+            RightToLeft_yPos()
+            {
+                const randomYPos = Math.ceil(Math.random() * this.canvasWidth + 1); 
+
+                this.c.x += this.speed;
+                this.c.y = this.c.y / randomYPos;
+        
+                //// Gradient 
+                this.g.x1 += this.speed;
+                this.g.y1 = this.g.y1 / randomYPos;
+                this.g.x2 += this.speed;
+                this.g.y2 = this.g.y2 / randomYPos;
+        
+                //// Ellipse 
+                this.el.x += this.speed;
+                this.el.y = this.el.y / randomYPos;
+        
+            }// end RightToLeft()
         
             BottomToTop()
             {
@@ -116,6 +178,24 @@
         
                 //// Ellipse 
                 this.el.x =  this.el.x;
+                this.el.y += this.speed;
+            }// end BottomToTop()
+
+            BottomToTopFrom_xPos()
+            {
+                const randomXPos = Math.ceil(Math.random() * this.canvasWidth + 1); 
+
+                this.c.x = this.c.x / randomXPos;
+                this.c.y  += this.speed;
+        
+                //// Gradient 
+                this.g.x1 = this.g.x1 / randomXPos;
+                this.g.y1 += this.speed;
+                this.g.x2 = this.g.x2 / randomXPos;
+                this.g.y2 += this.speed;
+        
+                //// Ellipse 
+                this.el.x =  this.el.x / randomXPos;
                 this.el.y += this.speed;
             }// end BottomToTop()
         
@@ -149,6 +229,10 @@
                     2: Right
                     3: button
                     4: Drop from top corner
+                    5: left yPos
+                    6. Top xPos
+                    7. Right yPos
+                    8. Button xPos
                 ] 
             */
             move() 
@@ -164,6 +248,7 @@
                     // this.resetCoordinate();
         
                     this.direction = 0; 
+                    this.directionCount += 1; 
                     // console.log(`D: ${this.direction} =>c: [  x:${this.c.x}, y:${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
                    
                 };
@@ -171,6 +256,8 @@
                 if (this.c.x <= 0) 
                 {
                     this.direction = 2; 
+                    this.directionCount += 1; 
+
                     // console.log(`[D: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
         
                 }
@@ -178,6 +265,8 @@
                 if (this.c.y >= this.canvasHeight)
                 {
                     this.direction = 1; 
+                    this.directionCount += 1; 
+
                     // console.log(`[D: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
         
                 }
@@ -185,6 +274,8 @@
                 if (this.c.y <= 0)
                 {
                     this.direction = 3; 
+                    this.directionCount += 1; 
+
                     // console.log(`[D: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [$${this.el.x}, ${this.el.y}]]`);
         
                 }
@@ -204,7 +295,7 @@
                 {
                    this.TopToBottom(); 
                 }
-                else if (this.direction === 2)
+                else if (this.direction == 2)
                 {
                     this.RightToLeft(); 
                 }
@@ -212,10 +303,36 @@
                 {
                    this.BottomToTop(); 
                 }
+                else if ( this.direction == 4 )
+                {
+                   this.LeftToRightFrom_yPos(); 
+                }
+                else if ( this.direction == 5 )
+                {
+                   this.TopToBottom_xPos(); 
+                }
+                else if ( this.direction == 6 )
+                {
+                   this.RightToLeft_yPos(); 
+                }
+                else if ( this.direction == 7 )
+                {
+                   this.BottomToTopFrom_xPos(); 
+                }
                 else
                 {
                     this.TopCornerToBottomCorner(); 
                 }
+
+                //// Changing to random direction with "directionCount"
+                if (this.directionCount > 10)
+                {
+                    this.direction = Math.ceil(Math.random() * 8); 
+                    // console.log(`DCount: ${this.directionCount}`);
+                    this.directionCount = 0; 
+
+                    this.speed = Math.ceil(Math.random() * 10); 
+                } 
         
                 
         
@@ -280,8 +397,11 @@
                 //// Create gradients 
                 var radgrad = this.ctx.createRadialGradient(this.g.x1, this.g.y1, this.g.r1, this.g.x2, this.g.y2, this.g.r2);
         
-                radgrad.addColorStop(0.7, '#A7D30C');
-                radgrad.addColorStop(0.25, '#019f62');
+                // radgrad.addColorStop(0.7, '#A7D30C');
+                // radgrad.addColorStop(0.25, '#019f62');
+
+                radgrad.addColorStop(0.7, this.color_1);
+                radgrad.addColorStop(0.25, this.color_2);
         
         
                 this.ctx.beginPath()
@@ -346,91 +466,169 @@
         }
 
 
-        let circleObject_1 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=0, speed=4);
-        let circleObject_2 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=2, speed=4);
-        let circleObject_3 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=1, speed=4);
-        let circleObject_4 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=3, speed=4);
+        // let circleObject_1 = new DrawGradientCircle(ctx, id=1, canvas.clientWidth, canvas.clientHeight, direction=0, speed=4);
+        // let circleObject_2 = new DrawGradientCircle(ctx, id=2, canvas.clientWidth, canvas.clientHeight, direction=2, speed=4);
+        // let circleObject_3 = new DrawGradientCircle(ctx, id=3, canvas.clientWidth, canvas.clientHeight, direction=1, speed=4);
+        // let circleObject_4 = new DrawGradientCircle(ctx, id=4, canvas.clientWidth, canvas.clientHeight, direction=3, speed=4);
         // let circleObject_5 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=0);
         // let circleObject_6 = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=3);
 
         let circleArray = []; 
+        let numberOfBubbles = 200; 
 
-        function detectCollision(circleObject_1, circleObject_2)
+        function randomColor()
         {
-            let collision = { topAndBottom: false, leftAndRight: false }; 
-            /*================================================================================================ 
-                Collision Detecting
-                Ref: https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-            ================================================================================================*/
+            let hexValues = "0123456789ABCDEF"; 
+            let colorString = '#'; 
 
-            let dx = (circleObject_1.c.x + circleObject_1.c.r) - (circleObject_2.c.x + circleObject_2.c.r); 
-            let dy = (circleObject_2.c.y + circleObject_2.c.r) - (circleObject_2.c.y + circleObject_2.c.r); 
-            // console.log(`Center Xs: ${circle_1_CenterX} == ${circle_2_CenterX}`);
-
-            let distance = Math.sqrt(dx * dx + dy * dy); // circumference = sqrt a^2 + b^2
-
-            if (distance < (circleObject_1.c.r + circleObject_2.c.r))
+            for (let i = 0; i < 6; i++)
             {
-               
-                console.log(`================ Collision Detected ===============`);
-                console.log(`[c1: [${circleObject_1.c.x}, ${circleObject_1.c.y}], g: [${circleObject_1.g.x1}, ${circleObject_1.g.y1}, ${circleObject_1.g.x2}, ${circleObject_1.g.y2}], el: [$${circleObject_1.el.x}, ${circleObject_1.el.y}]]`);
-                console.log(`[c2: [${circleObject_2.c.x}, ${circleObject_2.c.y}], g: [${circleObject_2.g.x1}, ${circleObject_2.g.y1}, ${circleObject_2.g.x2}, ${circleObject_2.g.y2}], el: [$${circleObject_2.el.x}, ${circleObject_2.el.y}]]`);
-                console.log(`=====================================================`);
-                
-                if (circleObject_1.c.x <= circleObject_2.c.x)
-                {
-                    
-                    circleObject_1.direction = 2; 
-                    circleObject_2.direction = 0; 
+                colorString += hexValues[ Math.ceil(Math.random() * 15)]; 
+            }
 
-                    collision.leftAndRight = true; 
-                }// end if 
-
-                if (circleObject_1.c.y <= circleObject_2.c.y)
-                {
-                    
-
-                    // console.log(`================ Collision Detected ===============`);
-                    // console.log(`[c1: [${circleObject_1.c.x}, ${circleObject_1.c.y}], g: [${circleObject_1.g.x1}, ${circleObject_1.g.y1}, ${circleObject_1.g.x2}, ${circleObject_1.g.y2}], el: [$${circleObject_1.el.x}, ${circleObject_1.el.y}]]`);
-                    // console.log(`[c2: [${circleObject_2.c.x}, ${circleObject_2.c.y}], g: [${circleObject_2.g.x1}, ${circleObject_2.g.y1}, ${circleObject_2.g.x2}, ${circleObject_2.g.y2}], el: [$${circleObject_2.el.x}, ${circleObject_2.el.y}]]`);
-                    // console.log(`=====================================================`);
-
-                    circleObject_1.direction = 3; 
-                    circleObject_2.direction = 1; 
-
-                    collision.topAndBottom = true; 
-
-                }// end if   
-                
-            }// end if 
-
-            return collision; 
-
-
-        }// end detectCollision()
+            return colorString; 
+        }// end randomColor()
+        
 
         function init()
         {
 
-            let numberOfBubbles = 4; 
 
             for (let i = 0; i < numberOfBubbles; i++)
             {
-                let circleObject = new DrawGradientCircle(ctx, canvas.clientWidth, canvas.clientHeight, direction=i, speed=4);
+                let randomDirection = Math.ceil( Math.random() * 4); 
+                let randomSpeed = Math.ceil(Math.random() * 5); 
+                let circleObject = new DrawGradientCircle(ctx, id=i, color_1=randomColor(), color_2=randomColor(), canvas.clientWidth, canvas.clientHeight, direction=randomDirection, speed=randomSpeed);
                 circleArray.push(circleObject); 
 
             }// end for 
 
+            //// Moving the 
             for (let i = 0; i < numberOfBubbles; i++)
             {
-                circleArray[i].DrawCircleOnCanvas(); 
-                
+              
+                circleArray[i].DrawCircleOnCanvas();
                 circleArray[i].move(); 
+
                 
-            }// end for 
+            }// end for -> i
 
 
         }// end init()
+
+        
+
+        function Collision()
+        {
+
+            let numberOfBubbles = 200; 
+
+            for (let i = 0; i < numberOfBubbles; i++)
+            {
+                let randomDirection = Math.ceil( Math.random() * 8); 
+                let randomSpeed = Math.ceil(Math.random() * 5); 
+                let circleObject = new DrawGradientCircle(ctx, id=i, color_1=randomColor(), color_2=randomColor(), canvas.clientWidth, canvas.clientHeight, direction=randomDirection, speed=randomSpeed);
+                circleArray.push(circleObject); 
+
+            }// end for 
+
+            //// Moving the 
+            for (let i = 0; i < numberOfBubbles; i++)
+            {
+                let circleObject_1 = circleArray[i]; 
+                let circleObject_2 = circleArray[i]; 
+                let isCollision = false; 
+               
+
+                for (let j = 0; j < numberOfBubbles; j++)
+                {
+                    circleObject_2 =  circleArray[j]; 
+
+                    //// Ignoring detecting for itself
+                    if (circleObject_1.id != circleObject_2.id)
+                    {
+                        /*================================================================================================ 
+                            Collision Detecting
+                            Ref: https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+                        ================================================================================================*/
+
+                        let dx = (circleObject_1.c.x + circleObject_1.c.r) - (circleObject_2.c.x + circleObject_2.c.r); 
+                        let dy = (circleObject_1.c.y + circleObject_1.c.r) - (circleObject_2.c.y + circleObject_2.c.r); 
+                        // console.log(`Center Xs: ${circle_1_CenterX} == ${circle_2_CenterX}`);
+
+                        let distance = Math.sqrt(dx * dx + dy * dy); // circumference = sqrt a^2 + b^2
+
+                        if (distance < (circleObject_1.c.r + circleObject_2.c.r))
+                        {
+                        
+                            isCollision = true; 
+                            
+                        }// end if 
+
+                        
+
+
+                    }// end if 
+
+                        
+                }// end for -> j
+
+
+                if (isCollision)
+                {
+
+                    console.log(`================ Collision Detected ===============`);
+                    // console.log(`[c1: [${circleObject_1.c.x}, ${circleObject_1.c.y}], g: [${circleObject_1.g.x1}, ${circleObject_1.g.y1}, ${circleObject_1.g.x2}, ${circleObject_1.g.y2}], el: [$${circleObject_1.el.x}, ${circleObject_1.el.y}]]`);
+                    // console.log(`[c2: [${circleObject_2.c.x}, ${circleObject_2.c.y}], g: [${circleObject_2.g.x1}, ${circleObject_2.g.y1}, ${circleObject_2.g.x2}, ${circleObject_2.g.y2}], el: [$${circleObject_2.el.x}, ${circleObject_2.el.y}]]`);
+                    // console.log(`=====================================================`);
+                    
+                    if (circleObject_1.c.x <= circleObject_2.c.x)
+                    {
+                        
+                        circleObject_1.direction = 2; 
+                        circleObject_2.direction = 0; 
+
+                    }// end if 
+
+                    if (circleObject_1.c.y <= circleObject_2.c.y)
+                    {
+                        
+
+                        // console.log(`================ Collision Detected ===============`);
+                        // console.log(`[c1: [${circleObject_1.c.x}, ${circleObject_1.c.y}], g: [${circleObject_1.g.x1}, ${circleObject_1.g.y1}, ${circleObject_1.g.x2}, ${circleObject_1.g.y2}], el: [$${circleObject_1.el.x}, ${circleObject_1.el.y}]]`);
+                        // console.log(`[c2: [${circleObject_2.c.x}, ${circleObject_2.c.y}], g: [${circleObject_2.g.x1}, ${circleObject_2.g.y1}, ${circleObject_2.g.x2}, ${circleObject_2.g.y2}], el: [$${circleObject_2.el.x}, ${circleObject_2.el.y}]]`);
+                        // console.log(`=====================================================`);
+
+                        circleObject_1.direction = 3; 
+                        circleObject_2.direction = 1; 
+
+
+                    }// end if   
+
+                    // circleObject_1.DrawCircleOnCanvas();
+                    // circleObject_1.move(); 
+
+                    // circleObject_2.DrawCircleOnCanvas();
+                    // circleObject_2.move(); 
+
+                    isCollision = false; // Reset the collision
+
+                }
+                else 
+                {
+                    
+                
+               
+                circleObject_1.DrawCircleOnCanvas();
+                circleObject_1.move(); 
+                }// end if 
+
+                
+            }// end for -> i
+
+
+        }// end init()
+
 
         function CircleWithGradient() 
         {

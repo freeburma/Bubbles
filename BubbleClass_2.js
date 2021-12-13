@@ -26,21 +26,22 @@ class DrawGradientCircle {
             radiusY: 12
         };
 
-        this.id = id; 
-        this.color_1 = color_1; 
-        this.color_2 = color_2; 
+        this.id = id;                       // ID: to track collision (*** Not implemented yet)
+        this.color_1 = color_1;             // Random color the parent
+        this.color_2 = color_2;             // Random color inner
 
-        this.directionCount = 1; 
-        this.direction = direction; // Direction
-        this.speed = speed;
+        this.directionCount = 1;            // The direction of the bubble
+        this.direction = direction;         // Direction
+        this.speed = speed;                 // Speed/steps per loop of the ball - which will control randomly
 
 
-        this.ctx = ctx; 
+        this.ctx = ctx;                     // Canvas Context: Will draw bubbles on the canvas 
         
-        this.canvasWidth = canvasWidth; 
-        this.canvasHeight = canvasHeight; 
+        this.canvasWidth = canvasWidth;     // Canvas Width 
+        this.canvasHeight = canvasHeight;   // Canvas Height
 
-        this.cy = 0; 
+        this.stepHistory = 0; 
+        this.stepHistoryCheck = this.GetRandomValue(canvasWidth * 2); 
 
     }// end constructor()
 
@@ -195,6 +196,10 @@ class DrawGradientCircle {
     }// end BottomCornerToTopLeftCorner()
 
 
+    GetRandomValue(maxUpperLimit = 0) 
+    {
+        return Math.ceil(Math.random() * maxUpperLimit); 
+    }
 
 
     /*
@@ -223,7 +228,11 @@ class DrawGradientCircle {
         /*================================================================================================ 
             Checking the bubbles coordinates and making sure they are still on our canvas. 
         ================================================================================================*/
-        console.log(`[D: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [${this.el.x}, ${this.el.y}]]`);
+        // console.log(`[D: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [${this.el.x}, ${this.el.y}]]`);
+
+        
+        console.log(`Step History: ${this.stepHistory}, StepHisCount: ${this.stepHistoryCheck}`)
+        this.stepHistory += this.speed
 
 
         if (this.c.x >= this.canvasWidth) 
@@ -307,16 +316,19 @@ class DrawGradientCircle {
        
 
         //// Changing to random direction with "directionCount"
-        if (this.directionCount > 1)
+        if (this.directionCount > 5 || this.stepHistory >= this.stepHistoryCheck)
         {
-            this.direction = Math.ceil(Math.random() * 7); 
+            this.direction = Math.ceil(Math.random() * 8); 
             // this.direction = 4; 
 
             // console.log(`DCount: ${this.directionCount}`);
 
-            this.speed = Math.ceil(Math.random() * 50) + 1; 
+            this.speed = Math.ceil(Math.random() * 25) + 1; 
 
             this.directionCount = 0; 
+
+            this.stepHistory = 0; 
+            this.stepHistoryCheck = this.GetRandomValue(this.canvasWidth * 3); 
         }// end if
 
 

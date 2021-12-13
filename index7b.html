@@ -25,7 +25,7 @@
             background-color: black;
 
             width: 100%;
-            height: 100vh;
+            height: 98vh;
 
             overflow: hidden;
         }
@@ -59,7 +59,7 @@
 
 
         let circleArray = []; 
-        let numberOfBubbles = 100; 
+        let numberOfBubbles = 4; 
 
         function randomColor()
         {
@@ -81,8 +81,8 @@
 
             for (let i = 0; i < numberOfBubbles; i++)
             {
-                // let randomDirection = Math.ceil( Math.random() * 4); 
-                let randomDirection = 4; 
+                // let randomDirection = Math.ceil( Math.random() * 7); 
+                let randomDirection = 75; 
                 let randomSpeed = Math.ceil(Math.random() * 5); 
 
                 let circleObject = new DrawGradientCircle(ctx, id=i, color_1=randomColor(), color_2=randomColor(), canvas.clientWidth, canvas.clientHeight, direction=randomDirection, speed=randomSpeed);

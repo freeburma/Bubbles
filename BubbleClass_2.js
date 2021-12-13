@@ -272,9 +272,6 @@ class DrawGradientCircle {
 
         }
 
-        
-
-
        
         /*================================================================================================ 
             Controlling Direction 
@@ -318,19 +315,20 @@ class DrawGradientCircle {
         //// Changing to random direction with "directionCount"
         if (this.directionCount > 5 || this.stepHistory >= this.stepHistoryCheck)
         {
-            this.direction = Math.ceil(Math.random() * 8); 
+            this.direction = this.GetRandomValue(8); 
             // this.direction = 4; 
 
             // console.log(`DCount: ${this.directionCount}`);
 
-            this.speed = Math.ceil(Math.random() * 25) + 1; 
+            this.speed =  this.GetRandomValue(25) + 1; 
 
             this.directionCount = 0; 
 
             this.stepHistory = 0; 
             // this.stepHistoryCheck = this.GetRandomValue(this.canvasWidth * 3); 
-            this.stepHistoryCheck = this.GetRandomValue(this.canvasWidth * this.canvasHeight / 4) + 100; 
+            this.stepHistoryCheck = this.GetRandomValue(this.canvasWidth * this.canvasHeight / 4) ; 
         }// end if
+        
 
 
     } // move()

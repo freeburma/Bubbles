@@ -328,7 +328,8 @@ class DrawGradientCircle {
             this.directionCount = 0; 
 
             this.stepHistory = 0; 
-            this.stepHistoryCheck = this.GetRandomValue(this.canvasWidth * 3); 
+            // this.stepHistoryCheck = this.GetRandomValue(this.canvasWidth * 3); 
+            this.stepHistoryCheck = this.GetRandomValue(this.canvasWidth * this.canvasHeight / 4) + 100; 
         }// end if
 
 

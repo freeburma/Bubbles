@@ -59,7 +59,7 @@
 
 
         let circleArray = []; 
-        let numberOfBubbles = 4; 
+        let numberOfBubbles = 75; 
 
         function randomColor()
         {
@@ -79,16 +79,22 @@
         {
 
 
-            for (let i = 0; i < numberOfBubbles; i++)
+            //// We will not be creating object/s at all time 
+            if (numberOfBubbles != circleArray.length)
             {
-                // let randomDirection = Math.ceil( Math.random() * 7); 
-                let randomDirection = 75; 
-                let randomSpeed = Math.ceil(Math.random() * 5); 
 
-                let circleObject = new DrawGradientCircle(ctx, id=i, color_1=randomColor(), color_2=randomColor(), canvas.clientWidth, canvas.clientHeight, direction=randomDirection, speed=randomSpeed);
-                circleArray.push(circleObject); 
+                for (let i = 0; i < numberOfBubbles; i++)
+                {
+                    let randomDirection = Math.ceil( Math.random() * 7); 
+                    // let randomDirection = 5; 
+                    let randomSpeed = Math.ceil(Math.random() * 25) + 1; 
 
-            }// end for 
+                    let circleObject = new DrawGradientCircle(ctx, id=i, color_1=randomColor(), color_2=randomColor(), canvas.clientWidth, canvas.clientHeight, direction=randomDirection, speed=randomSpeed);
+                    circleArray.push(circleObject); 
+
+                }// end for 
+            }// end if 
+
 
             //// Moving the 
             for (let i = 0; i < numberOfBubbles; i++)

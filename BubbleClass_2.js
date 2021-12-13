@@ -231,7 +231,7 @@ class DrawGradientCircle {
         // console.log(`[D: ${this.direction} => c: ${this.c.x}, ${this.c.y}], g: [${this.g.x1}, ${this.g.y1}, ${this.g.x2}, ${this.g.y2}], el: [${this.el.x}, ${this.el.y}]]`);
 
         
-        console.log(`Step History: ${this.stepHistory}, StepHisCount: ${this.stepHistoryCheck}`)
+        // console.log(`Step History: ${this.stepHistory}, StepHisCount: ${this.stepHistoryCheck}`)
         this.stepHistory += this.speed
 
 
@@ -334,7 +334,7 @@ class DrawGradientCircle {
 
     } // move()
 
-    // resetCoordinate() 
+    // resetCoordinate() //// Original position 
     // {
     //     // Ellipse 
     //     this.el.x = 50;
@@ -359,31 +359,7 @@ class DrawGradientCircle {
     //     this.c.y = 90;
     // } // end resetCoordinate()
 
-    resetCoordinate() 
-    {
-        // Ellipse 
-        this.el.x = 50;
-
-        // Gradient 
-        this.g.x1 = 45;
-        this.g.y1 = 750;
-
-        // Circle 
-        this.c.x = 90;
-
-
-        // Ellipse 
-        this.el.y = 800;
-
-        // Gradient 
-        this.g.x2 = 90;
-        this.g.y2 = 80;
-        
-
-        // Circle 
-        this.c.y = 800;
-    } // end resetCoordinate()
-
+    
 
 
     DrawCircleOnCanvas() 
